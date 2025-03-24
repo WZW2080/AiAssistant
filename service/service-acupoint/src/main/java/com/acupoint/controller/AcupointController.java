@@ -33,4 +33,9 @@ public class AcupointController {
     public Result insert(TestAcupoint acupoint) {
         return Result.ok(acupointService.save(acupoint));
     }
+
+    public Result test(){
+        return Result.ok();
+    }
+
 }
