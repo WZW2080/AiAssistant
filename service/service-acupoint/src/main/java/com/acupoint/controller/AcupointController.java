@@ -38,4 +38,9 @@ public class AcupointController {
         return Result.ok();
     }
 
+    @GetMapping("test2")
+    public Result test2(){
+        return Result.ok();
+    }
+
 }
