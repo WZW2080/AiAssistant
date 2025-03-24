@@ -35,6 +35,7 @@ public class AcupointController {
     }
 
     public Result test(){
+        System.out.println("11111111111111111");
         return Result.ok();
     }
 
