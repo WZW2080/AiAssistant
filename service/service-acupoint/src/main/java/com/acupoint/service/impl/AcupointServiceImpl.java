@@ -3,8 +3,11 @@ package com.acupoint.service.impl;
 import acupoint.TestAcupoint;
 import com.acupoint.mapper.AcupointMapper;
 import com.acupoint.service.AcupointService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author w
@@ -15,6 +18,13 @@ import org.springframework.stereotype.Service;
 public class AcupointServiceImpl extends ServiceImpl<AcupointMapper, TestAcupoint>
     implements AcupointService {
 
+
+    @Override
+    public Page<TestAcupoint> getAcupointPage(Integer current, Integer size) {
+        // 创建分页对象
+        Page<TestAcupoint> page = new Page<>(current, size);
+        return baseMapper.selectPage(page, null);
+    }
 }
 
 

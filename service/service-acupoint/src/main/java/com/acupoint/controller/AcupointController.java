@@ -5,10 +5,7 @@ import com.acupoint.service.AcupointService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import res.Result;
 
 /**
@@ -28,6 +25,12 @@ public class AcupointController {
         return Result.ok(acupointService.list());
     }
 
+    @GetMapping("acupointPage")
+    @Operation(summary = "分页查询")
+    public Result getAcupointPage(@RequestParam(defaultValue = "1") Integer current,
+                                  @RequestParam(defaultValue = "10") Integer size) {
+        return Result.ok(acupointService.getAcupointPage(current, size));
+    }
     @PostMapping("insertAcupoint")
     @Operation(summary = "新增")
     public Result insert(TestAcupoint acupoint) {
