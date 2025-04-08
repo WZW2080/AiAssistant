@@ -19,4 +19,6 @@ public interface AcupointService extends IService<TestAcupoint> {
      * @return 返回分页数据
      */
     Page<TestAcupoint> getAcupointPage(Integer current, Integer size);
+
+//    List<TestAcupoint> acupointByMeridians(String name,String id);
 }

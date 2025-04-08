@@ -3,12 +3,40 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acupoint.mapper.AcupointMapper">
+    <resultMap type="acupoint.TestAcupoint" id="AcupointResult">
+        <result property="aid"    column="aid"    />
+        <result property="name"    column="name"    />
+        <result property="position"    column="position"    />
+        <result property="description"    column="description"    />
+        <result property="treatment"    column="treatment"    />
+        <result property="stitch"    column="stitch"    />
+        <result property="meridians"    column="meridians"    />
+    </resultMap>
+    <select id="acupointByMeridians" resultMap="AcupointResult">
+        <choose>
+            <!-- 优先使用 id 查询，单表查询 user -->
+            <when test="id != null and id != '' ">
+                SELECT * FROM acupoint.acupoint
+                WHERE acupoint.meridians = #{id}
+            </when>
 
-<!--    <resultMap id="BaseResultMap" type="acupoint.TestAcupoint">-->
-<!--            <id property="id" column="aid" />-->
-<!--            <result property="name" column="name" />-->
-<!--            <result property="position" column="position" />-->
-<!--            <result property="description" column="description" />-->
-<!--    </resultMap>-->
+            <!-- 否则，如果传入 name，则联查 order 表 -->
+            <when test="name != null and name != ''">
+                SELECT
+                *
+                FROM acupoint.acupoint a
+                LEFT JOIN acupoint.meridians m ON a.meridians = m.mid
+                WHERE m.name LIKE CONCAT('%', #{name}, '%')
+            </when>
+
+            <!-- 如果两个都没传，返回空 -->
+            <otherwise>
+                SELECT
+                *
+                FROM acupoint.acupoint
+                WHERE 1=0
+            </otherwise>
+        </choose>
+    </select>
 
 </mapper>

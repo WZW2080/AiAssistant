@@ -3,6 +3,7 @@ package com.acupoint.service.impl;
 import acupoint.TestAcupoint;
 import com.acupoint.mapper.AcupointMapper;
 import com.acupoint.service.AcupointService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class AcupointServiceImpl extends ServiceImpl<AcupointMapper, TestAcupoin
         Page<TestAcupoint> page = new Page<>(current, size);
         return baseMapper.selectPage(page, null);
     }
+
 }
 
 
