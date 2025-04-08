@@ -22,6 +22,7 @@ import res.Result;
 public class AcupointController {
     @Autowired
     private AcupointService acupointService;
+
     @GetMapping("acupointList")
     @Operation(summary = "查询所有穴位")
     public Result getAcupointList() {

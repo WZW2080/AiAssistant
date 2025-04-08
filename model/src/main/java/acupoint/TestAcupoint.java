@@ -15,4 +15,7 @@ public class TestAcupoint {
     private String name; //穴位名称
     private String position; //穴位位置
     private String description; //穴位描述
+    private String treatment; //穴位描述
+    private String stitch; //穴位描述
+
 }
