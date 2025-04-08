@@ -23,38 +23,15 @@ public class Geo {
     public static class Geocode {
         @JsonProperty("formatted_address")
         private String formattedAddress;
-
         private String country;
         private String province;
-
         @JsonProperty("citycode")
         private String cityCode;
-
         private String city;
-        private List<String> district;
-        private List<String> township;
-        private Neighborhood neighborhood;
-        private Building building;
-
+        private Object district;
         private String adcode;
-        private List<String> street;
-        private List<String> number;
         private String location;
         private String level;
-
-        // Getters and setters...
-    }
-    @Data
-    public static class Neighborhood {
-        private List<String> name;
-        private List<String> type;
-
-        // Getters and setters...
-    }
-    @Data
-    public static class Building {
-        private List<String> name;
-        private List<String> type;
 
         // Getters and setters...
     }
