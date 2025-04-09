@@ -6,8 +6,17 @@ spring:
     url: jdbc:mysql://8.138.45.249/acupoint
     username: wang
     password: 123456
-
-
+  ai:
+    openai:
+      chat:
+        options:
+#          model: qwen-omni-turbo-latest
+          model: qwen-vl-plus-latest
+      base-url:  https://dashscope.aliyuncs.com/compatible-mode
+      api-key: sk-c945ce6294914aefa52b0e3ea4ea2afe
+logging:
+  level:
+    org.springframework.ai: debug
 server:
   port: 8081
 
