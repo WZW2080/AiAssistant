@@ -1,7 +1,7 @@
 
 import com.acupoint.AcupointMainApplication;
 
-import com.acupoint.service.WeatherService;
+import com.acupoint.service.GdApiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,11 +16,11 @@ import res.Result;
 @SpringBootTest(classes = AcupointMainApplication.class)
 public class AcupointTest {
     @Autowired
-    private WeatherService weatherService;
+    private GdApiService gdApiService;
 
     @Test
     public void test() {
-        Result result = weatherService.getWeatherInfo("110101","");
+        Result result = gdApiService.getWeatherInfo("110101","");
         System.out.println(result);
     }
 }

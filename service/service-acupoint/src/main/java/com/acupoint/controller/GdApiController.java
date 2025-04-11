@@ -1,6 +1,6 @@
 package com.acupoint.controller;
 
-import com.acupoint.service.WeatherService;
+import com.acupoint.service.GdApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import res.Result;
 @CrossOrigin
 @RequestMapping("weather")
 @Tag(name = "获取位置天气接口api")
-public class WeatherController {
+public class GdApiController {
 
     @Autowired
-    private WeatherService weatherService;
+    private GdApiService gdApiService;
 
     @GetMapping("getInfo")
     @Operation(summary = "查询天气信息",
@@ -27,13 +27,20 @@ public class WeatherController {
                     "\n\nbase:返回实况天气\n" +
                     "\n\nall:返回预报天气")
     public Result getInfo(@RequestParam String city,@RequestParam(defaultValue = "base") String extensions){
-        return Result.ok(weatherService.getWeatherInfo(city,extensions));
+        return Result.ok(gdApiService.getWeatherInfo(city,extensions));
     }
 
     @GetMapping("getGeo")
     @Operation(summary = "查询地理位置信息",
             description = "规则遵循：国家、省份、城市、区县、城镇、乡村、街道、门牌号码、屋邨、大厦。可组合，如：北京市朝阳区阜通东大街6号。")
     public Result getGeo(@RequestParam String address){
-        return Result.ok(weatherService.getGeoInfo(address));
+        return Result.ok(gdApiService.getGeoInfo(address));
+    }
+
+    @GetMapping("getGeoTip")
+    @Operation(summary = "根据输入的关键词查询返回提示",
+            description = "如输入省份城市或者地名关键字，返回提示列表")
+    public Result getGeoTip(@RequestParam String keywords,@RequestParam(defaultValue = "") String city){
+        return Result.ok(gdApiService.getGeoTips(keywords,city));
     }
 }
