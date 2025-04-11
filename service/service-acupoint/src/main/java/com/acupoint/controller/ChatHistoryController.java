@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ai/history")
@@ -18,7 +19,7 @@ public class ChatHistoryController {
     private ChatHistoryRepository chatHistoryRepository;
 
     @Autowired
-    private  ChatMemory chatMemory;
+    private ChatMemory chatMemory;
 
     //获取聊天记录id和标题
     @GetMapping("/{type}")
@@ -28,12 +29,14 @@ public class ChatHistoryController {
 
     //获取指定会话id的聊天记录
     @GetMapping("/{type}/{chatId}")
-    public List<MessagesVO> getChatHistory(@PathVariable("type") String type, @PathVariable("chatId") String chatId) {
+    public List<Map<String, Object>> getChatHistory(@PathVariable("type") String type, @PathVariable("chatId") String chatId) {
         List<Message> messages = chatMemory.get(chatId, Integer.MAX_VALUE);
-        if (messages == null){
+
+        if (messages == null) {
             return List.of();
         }
-        return messages.stream().map(MessagesVO::new).toList();
+        List<MessagesVO> messagesVOList = messages.stream().map(MessagesVO::new).toList();
+        return List.of(Map.of("currentChatId", chatId, "messages",messagesVOList));
     }
 
     @PutMapping("/{type}")

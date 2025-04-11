@@ -1,6 +1,7 @@
 spring:
   application:
     name: service-acupoint
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://8.138.45.249/acupoint
@@ -13,13 +14,22 @@ spring:
         options:
           model: qvq-max-latest
           multi-model: true
+      audio:
+        synthesis:
+          api-key: ${API-KEY}
     openai:
       chat:
         options:
-#          model: qwen-omni-turbo-latest
+          #          model: qwen-omni-turbo-latest
           model: qwen-vl-plus-latest
-      base-url:  https://dashscope.aliyuncs.com/compatible-mode
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
       api-key: ${API-KEY}
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      password: 123456
 logging:
   level:
     org.springframework.ai: debug

@@ -9,8 +9,27 @@ import org.springframework.ai.chat.messages.Message;
 public class MessagesVO {
     private String role;
     private String content;
+    private String reasoningContent;
 
     public MessagesVO() {
+    }
+
+    public MessagesVO(Message message, String reasoningContent) {
+        //从message中获取类型
+        switch (message.getMessageType()) {
+            case USER:
+                role = "user";
+                break;
+            case ASSISTANT:
+                role = "assistant";
+                break;
+            default:
+                role = "";
+                break;
+        }
+        //从message中获取内容
+        this.content = message.getText();
+        this.reasoningContent = reasoningContent;
     }
 
     public MessagesVO(Message message) {
@@ -28,6 +47,14 @@ public class MessagesVO {
         }
         //从message中获取内容
         this.content = message.getText();
+    }
+
+    public String getReasoningContent() {
+        return reasoningContent;
+    }
+
+    public void setReasoningContent(String reasoningContent) {
+        this.reasoningContent = reasoningContent;
     }
 
     public String getRole() {

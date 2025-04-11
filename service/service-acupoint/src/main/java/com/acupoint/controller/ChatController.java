@@ -1,5 +1,6 @@
 package com.acupoint.controller;
 
+import com.acupoint.entity.vo.MessagesVO;
 import com.acupoint.respository.ChatHistoryRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -33,8 +35,11 @@ public class ChatController {
     @Autowired
     private ChatClient dashScopeChatClient;
 
+    private List<MessagesVO> array = new ArrayList<>();
 
-    /** 深度思考会话
+    /**
+     * 深度思考会话
+     *
      * @param prompt
      * @param chatId
      * @return
@@ -44,7 +49,7 @@ public class ChatController {
                                        @RequestParam("chatId") String chatId,
                                        @RequestParam(value = "files", required = false) List<MultipartFile> files) {
         //1.保存会话id
-        chatHistoryRepository.save("testChat", chatId);
+        chatHistoryRepository.save("chat", chatId);
         if (files == null || files.isEmpty()) {
             return textChat2(prompt, chatId);
         } else {
@@ -52,6 +57,7 @@ public class ChatController {
         }
     }
 
+    //深度思考带文件聊天
     private Flux<String> multiModalChat2(String prompt, String chatId, List<MultipartFile> files) {
         Media[] medias = files.stream().map(file ->
                 new Media(MediaType.valueOf(Objects.requireNonNull(file.getContentType())), file.getResource())
@@ -76,14 +82,13 @@ public class ChatController {
         });
     }
 
-    @NotNull
+    //深度思考聊天
     private Flux<String> textChat2(String prompt, String chatId) {
         Flux<ChatResponse> chatResponse = dashScopeChatClient.prompt()
                 .user(prompt)
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
                 .stream()
                 .chatResponse();
-
 
         return chatResponse.flatMap(chatResponse1 -> {
             Map<String, Object> metadata = chatResponse1.getResults().getFirst().getOutput().getMetadata();
@@ -113,7 +118,7 @@ public class ChatController {
             return multiModalChat(prompt, chatId, files);
         }
     }
-    
+
     //带文件聊天
     private Flux<String> multiModalChat(String prompt, String chatId, List<MultipartFile> files) {
         //构建多模态数据
@@ -142,5 +147,13 @@ public class ChatController {
                 .user(prompt)
                 .stream()//流式输出
                 .content();
+    }
+
+    public List<MessagesVO> getArray() {
+        return array;
+    }
+
+    public void setArray(List<MessagesVO> array) {
+        this.array = array;
     }
 }

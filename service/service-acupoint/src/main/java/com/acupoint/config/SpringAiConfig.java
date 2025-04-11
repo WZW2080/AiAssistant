@@ -1,13 +1,11 @@
 package com.acupoint.config;
 
-import com.acupoint.constants.SystemConstant;
 import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
-import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +26,7 @@ public class SpringAiConfig {
                 .builder(model)
                 .defaultSystem(CHAT_SYSTEM_PROMPT)
                 .defaultAdvisors(new SimpleLoggerAdvisor(), // 添加一个简单的日志记录器
-                        new MessageChatMemoryAdvisor(chatMemory) // 添加一个消息记忆的记录器
+                        new MessageChatMemoryAdvisor(chatMemory)// 添加一个消息记忆的记录器
                 )
                 .build();
     }

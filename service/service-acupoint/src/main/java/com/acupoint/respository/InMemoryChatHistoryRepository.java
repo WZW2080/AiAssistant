@@ -1,6 +1,9 @@
 package com.acupoint.respository;
 
 import com.acupoint.entity.po.HistoryRepository;
+import org.springframework.ai.chat.messages.Message;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ public class InMemoryChatHistoryRepository implements ChatHistoryRepository {
     /**
      * 根据业务类型保存会话id
      *
-     * @param type   业务类型：chat、service、pdf
+     * @param type   业务类型：chat
      * @param chatId 会话id
      */
     @Override
@@ -49,7 +52,6 @@ public class InMemoryChatHistoryRepository implements ChatHistoryRepository {
      */
     @Override
     public List<HistoryRepository> getChatIds(String type) {
-//        List<String> chatIds = chatHistory.get(type);
         List<HistoryRepository> historyRepositories = chatHistory.get(type);
         return historyRepositories != null ? historyRepositories : List.of();
     }
