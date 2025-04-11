@@ -7,16 +7,22 @@ spring:
     username: wang
     password: 123456
   ai:
+    dashscope:
+      api-key: ${API-KEY}
+      chat:
+        options:
+          model: qvq-max-latest
+          multi-model: true
     openai:
       chat:
         options:
 #          model: qwen-omni-turbo-latest
           model: qwen-vl-plus-latest
       base-url:  https://dashscope.aliyuncs.com/compatible-mode
-      api-key: sk-c945ce6294914aefa52b0e3ea4ea2afe
+      api-key: ${API-KEY}
 logging:
   level:
     org.springframework.ai: debug
 server:
   port: 8081
-
+API-KEY: sk-c945ce6294914aefa52b0e3ea4ea2afe
