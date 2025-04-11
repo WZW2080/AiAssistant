@@ -1,6 +1,7 @@
 package com.acupoint.controller;
 
 import com.acupoint.respository.ChatHistoryRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.model.Media;
@@ -21,6 +22,7 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ai")
+@Tag(name = "chatAPI", description = "当前版仅测试")
 public class ChatController {
     @Autowired
     private ChatClient chatClient;
