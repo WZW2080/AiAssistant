@@ -11,6 +11,7 @@ import java.util.List;
 @Component
 public class InRedisChatHistoryRepository implements ChatHistoryRepository {
     public static final String CHAT_SESSION_PREFIX = "chat_session:";
+    private static final String REDIS_KEY_PREFIX = "chatmemory:";
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -69,10 +70,10 @@ public class InRedisChatHistoryRepository implements ChatHistoryRepository {
         //遍历集合，找到要更新的记录，并更新
         for (HistoryRepository repository : historyRepositoryList) {
             if (repository.getChatId().equals(historyRepository.getChatId())) {
-                //更新标题
-                repository.setTitle(historyRepository.getTitle());
                 //根据key找到原有记录并删除
                 stringRedisTemplate.opsForList().remove(key, 1, JSON.toJSONString(repository));
+                //更新标题
+                repository.setTitle(historyRepository.getTitle());
                 //把新的记录存储进去
                 stringRedisTemplate.opsForList().leftPush(key, JSON.toJSONString(repository));
                 return;
@@ -81,7 +82,7 @@ public class InRedisChatHistoryRepository implements ChatHistoryRepository {
     }
 
     /**
-     * 删除会话记录
+     * 删除会话记录id
      * @param type 业务类型：chat、service、pdf
      * @param chatId 会话id
      */
@@ -93,8 +94,10 @@ public class InRedisChatHistoryRepository implements ChatHistoryRepository {
             HistoryRepository repository = JSON.parseObject(string, HistoryRepository.class);
             //再判断是否存在相同id
             if (repository.getChatId().equals(chatId)) {
-                //存在则删除
+                //存在则删除会话记录id
                 stringRedisTemplate.opsForList().remove(key, 1, JSON.toJSONString(repository));
+                //还要删除聊天记录
+                stringRedisTemplate.delete(REDIS_KEY_PREFIX + repository.getChatId());
                 return;
             }
         }

@@ -22,6 +22,11 @@ public class SpringAiConfig {
     }
 
     @Bean
+    public ChatMemory inMemoryChatMemory() {
+        return new InMemoryChatMemory();
+    }
+
+    @Bean
     public ChatClient chatClient(OpenAiChatModel model, ChatMemory chatMemory) {
         return ChatClient
                 .builder(model)

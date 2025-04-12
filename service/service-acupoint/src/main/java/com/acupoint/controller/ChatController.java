@@ -35,8 +35,6 @@ public class ChatController {
     private ChatHistoryRepository inRedisChatHistoryRepository;
     @Autowired
     private ChatClient dashScopeChatClient;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 深度思考会话
@@ -69,7 +67,6 @@ public class ChatController {
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
                 .stream()
                 .chatResponse();
-
 
         return chatResponse.flatMap(chatResponse1 -> {
             Map<String, Object> metadata = chatResponse1.getResults().getFirst().getOutput().getMetadata();
@@ -127,7 +124,6 @@ public class ChatController {
                         MediaType.valueOf(Objects.requireNonNull(file.getContentType())), file.getResource()))
                 .toArray(Media[]::new);
 
-
         return chatClient
                 .prompt()
                 .user(c -> c.text(prompt).media(medias))
@@ -149,5 +145,4 @@ public class ChatController {
                 .stream()//流式输出
                 .content();
     }
-
 }

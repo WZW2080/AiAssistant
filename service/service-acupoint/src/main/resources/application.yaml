@@ -1,7 +1,6 @@
 spring:
   application:
     name: service-acupoint
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://8.138.45.249/acupoint
@@ -14,9 +13,6 @@ spring:
         options:
           model: qvq-max-latest
           multi-model: true
-      audio:
-        synthesis:
-          api-key: ${API-KEY}
     openai:
       chat:
         options:
