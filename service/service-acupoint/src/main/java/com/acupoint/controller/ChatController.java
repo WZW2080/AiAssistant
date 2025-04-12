@@ -149,11 +149,4 @@ public class ChatController {
                 .content();
     }
 
-    public List<MessagesVO> getArray() {
-        return array;
-    }
-
-    public void setArray(List<MessagesVO> array) {
-        this.array = array;
-    }
 }

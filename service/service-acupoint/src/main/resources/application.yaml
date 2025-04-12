@@ -20,8 +20,7 @@ spring:
     openai:
       chat:
         options:
-          #          model: qwen-omni-turbo-latest
-          model: qwen-vl-plus-latest
+          model: qwen-vl-max-latest
       base-url: https://dashscope.aliyuncs.com/compatible-mode
       api-key: ${API-KEY}
   data:
