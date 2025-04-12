@@ -1,5 +1,6 @@
 package com.acupoint.config;
 
+import com.acupoint.chatMemony.RedisChatMemory;
 import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -17,7 +18,7 @@ public class SpringAiConfig {
 
     @Bean
     public ChatMemory chatMemory() {
-        return new InMemoryChatMemory();
+        return new RedisChatMemory();
     }
 
     @Bean

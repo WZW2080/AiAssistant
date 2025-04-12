@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+//@Component
 public class InMemoryChatHistoryRepository implements ChatHistoryRepository {
 
     // 模拟一个简单的内存数据库

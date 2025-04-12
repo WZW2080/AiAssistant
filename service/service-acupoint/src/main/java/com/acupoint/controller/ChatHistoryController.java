@@ -6,6 +6,7 @@ import com.acupoint.respository.ChatHistoryRepository;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,15 +17,14 @@ import java.util.Map;
 public class ChatHistoryController {
 
     @Autowired
-    private ChatHistoryRepository chatHistoryRepository;
-
+    private ChatHistoryRepository inRedisChatHistoryRepository;
     @Autowired
     private ChatMemory chatMemory;
 
     //获取聊天记录id和标题
     @GetMapping("/{type}")
     public List<HistoryRepository> getChatIds(@PathVariable("type") String type) {
-        return chatHistoryRepository.getChatIds(type);
+        return inRedisChatHistoryRepository.getChatIds(type);
     }
 
     //获取指定会话id的聊天记录
@@ -36,17 +36,17 @@ public class ChatHistoryController {
             return List.of();
         }
         List<MessagesVO> messagesVOList = messages.stream().map(MessagesVO::new).toList();
-        return List.of(Map.of("currentChatId", chatId, "messages",messagesVOList));
+        return List.of(Map.of("currentChatId", chatId, "messages", messagesVOList));
     }
 
     @PutMapping("/{type}")
     public void updateChatHistoryTitle(@PathVariable("type") String type, @RequestBody HistoryRepository historyRepository) {
-        chatHistoryRepository.updateTitle(type, historyRepository);
+        inRedisChatHistoryRepository.updateTitle(type, historyRepository);
     }
 
     //根据会话id删除聊天记录
     @DeleteMapping("/{type}/{chatId}")
     public void deleteChatHistory(@PathVariable("type") String type, @PathVariable("chatId") String chatId) {
-        chatHistoryRepository.delete(type, chatId);
+        inRedisChatHistoryRepository.delete(type, chatId);
     }
 }

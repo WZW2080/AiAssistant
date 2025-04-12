@@ -9,6 +9,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.model.Media;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,11 +32,11 @@ public class ChatController {
     @Autowired
     private ChatClient chatClient;
     @Autowired
-    private ChatHistoryRepository chatHistoryRepository;
+    private ChatHistoryRepository inRedisChatHistoryRepository;
     @Autowired
     private ChatClient dashScopeChatClient;
-
-    private List<MessagesVO> array = new ArrayList<>();
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 深度思考会话
@@ -49,7 +50,7 @@ public class ChatController {
                                        @RequestParam("chatId") String chatId,
                                        @RequestParam(value = "files", required = false) List<MultipartFile> files) {
         //1.保存会话id
-        chatHistoryRepository.save("chat", chatId);
+        inRedisChatHistoryRepository.save("chat", chatId);
         if (files == null || files.isEmpty()) {
             return textChat2(prompt, chatId);
         } else {
@@ -107,7 +108,7 @@ public class ChatController {
                              @RequestParam("chatId") String chatId,
                              @RequestParam(value = "files", required = false) List<MultipartFile> files) {
         //1.保存会话id
-        chatHistoryRepository.save("chat", chatId);
+        inRedisChatHistoryRepository.save("chat", chatId);
         //2.请求模型
         //判断文件是否有值
         if (files == null || files.isEmpty()) {
