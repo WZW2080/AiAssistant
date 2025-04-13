@@ -36,5 +36,4 @@ public class RedisChatMemory implements ChatMemory {
     public void clear(String conversationId) {
         redisTemplate.delete(REDIS_KEY_PREFIX + conversationId);
     }
-
 }

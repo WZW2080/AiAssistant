@@ -1,6 +1,7 @@
-package com.acupoint.respository;
+package com.acupoint.respository.impl;
 
 import com.acupoint.entity.po.HistoryRepository;
+import com.acupoint.respository.ChatHistoryRepository;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -14,6 +15,8 @@ public class InRedisChatHistoryRepository implements ChatHistoryRepository {
     private static final String REDIS_KEY_PREFIX = "chatmemory:";
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private InRedisReasoningHistoryRepository inRedisReasoningHistoryRepository;
 
     /**
      * 保存会话id
@@ -98,6 +101,8 @@ public class InRedisChatHistoryRepository implements ChatHistoryRepository {
                 stringRedisTemplate.opsForList().remove(key, 1, JSON.toJSONString(repository));
                 //还要删除聊天记录
                 stringRedisTemplate.delete(REDIS_KEY_PREFIX + repository.getChatId());
+                //还有删除思考记录
+                inRedisReasoningHistoryRepository.delete(type, repository.getChatId());
                 return;
             }
         }

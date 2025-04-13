@@ -1,10 +1,7 @@
-package com.acupoint.respository;
+package com.acupoint.respository.impl;
 
 import com.acupoint.entity.po.HistoryRepository;
-import org.springframework.ai.chat.messages.Message;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import com.acupoint.respository.ChatHistoryRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,10 +10,8 @@ import java.util.Map;
 
 //@Component
 public class InMemoryChatHistoryRepository implements ChatHistoryRepository {
-
     // 模拟一个简单的内存数据库
     private final Map<String, List<HistoryRepository>> chatHistory = new HashMap<>();
-
     /**
      * 根据业务类型保存会话id
      *
@@ -79,6 +74,11 @@ public class InMemoryChatHistoryRepository implements ChatHistoryRepository {
         }
     }
 
+    /**
+     * 删除会话记录id
+     * @param type 业务类型：chat、service、pdf
+     * @param chatId 会话id
+     */
     @Override
     public void delete(String type, String chatId) {
         //如果不存在该类型的会话id，直接返回
@@ -93,6 +93,5 @@ public class InMemoryChatHistoryRepository implements ChatHistoryRepository {
                 break;
             }
         }
-
     }
 }

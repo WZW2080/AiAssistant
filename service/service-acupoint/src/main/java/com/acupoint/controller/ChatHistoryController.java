@@ -21,6 +21,12 @@ public class ChatHistoryController {
     @Autowired
     private ChatMemory chatMemory;
 
+    //保存新建对话
+    @GetMapping("/saveChatHistory/{type}/{chatId}")
+    public void saveChatHistory(@PathVariable("type") String type, @PathVariable("chatId") String chatId) {
+        inRedisChatHistoryRepository.save(type, chatId);
+    }
+
     //获取聊天记录id和标题
     @GetMapping("/{type}")
     public List<HistoryRepository> getChatIds(@PathVariable("type") String type) {
